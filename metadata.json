@@ -1,0 +1,5 @@
+{
+  "name": "ProcessAI - Simulator & Optimizer",
+  "description": "An interactive web application to define, simulate, analyze, and optimize multi-step processes using AI-driven reasoning.",
+  "requestFramePermissions": []
+}

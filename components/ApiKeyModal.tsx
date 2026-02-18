@@ -19,7 +19,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ setApiKey, isOpen }) =
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl max-w-md w-full border border-slate-200 p-8 animate-in fade-in zoom-in duration-300">
         <div className="flex flex-col items-center text-center mb-6">
           <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">

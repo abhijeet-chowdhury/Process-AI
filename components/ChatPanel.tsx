@@ -10,6 +10,7 @@ interface ChatPanelProps {
   simulationResult: any;
   onApplyOptimization: (newSteps: ProcessStep[]) => void;
   apiKey: string;
+  onNeedApiKey?: () => void;
 }
 
 export const ChatPanel: React.FC<ChatPanelProps> = ({
@@ -18,7 +19,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
   currentProcess,
   simulationResult,
   onApplyOptimization,
-  apiKey
+  apiKey,
+  onNeedApiKey
 }) => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +36,12 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
+    // Show API key modal if missing
+    if (!apiKey) {
+      onNeedApiKey?.();
+      return;
+    }
 
     const userMsg: ChatMessage = { role: 'user', text: input };
     const newHistory = [...chatHistory, userMsg];

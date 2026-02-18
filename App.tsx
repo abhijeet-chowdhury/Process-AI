@@ -14,6 +14,7 @@ const API_KEY_STORAGE = 'process_ai_api_key';
 const App: React.FC = () => {
   // --- State ---
   const [apiKey, setApiKey] = useState('');
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [activeTab, setActiveTab] = useState<'build' | 'results' | 'compare'>('build');
   const [processName, setProcessName] = useState('My Process');
   const [steps, setSteps] = useState<ProcessStep[]>([]);
@@ -34,6 +35,7 @@ const App: React.FC = () => {
   const handleSetApiKey = (key: string) => {
     setApiKey(key);
     localStorage.setItem(API_KEY_STORAGE, key);
+    setShowApiKeyModal(false); // Close modal after setting key
   };
 
   // Load App State
@@ -68,8 +70,10 @@ const App: React.FC = () => {
   // --- Handlers ---
   const handleRunSimulation = async () => {
     if (steps.length === 0) return;
+    
+    // Show modal if API key is missing
     if (!apiKey) {
-      alert("Please enter an API Key first.");
+      setShowApiKeyModal(true);
       return;
     }
 
@@ -89,7 +93,11 @@ const App: React.FC = () => {
   };
 
   const handleApplyOptimization = async (newSteps: ProcessStep[]) => {
-    if (!apiKey) return;
+    // Show modal if API key is missing
+    if (!apiKey) {
+      setShowApiKeyModal(true);
+      return;
+    }
     
     // 1. Update Steps
     setSteps(newSteps);
@@ -139,7 +147,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-slate-100">
-      <ApiKeyModal isOpen={!apiKey} setApiKey={handleSetApiKey} />
+      <ApiKeyModal isOpen={showApiKeyModal} setApiKey={handleSetApiKey} />
 
       {/* Navbar */}
       <header className="bg-slate-900 text-white p-4 shadow-lg flex items-center justify-between z-10">
@@ -216,6 +224,7 @@ const App: React.FC = () => {
                 processName={processName}
                 setProcessName={setProcessName}
                 apiKey={apiKey}
+                onNeedApiKey={() => setShowApiKeyModal(true)}
               />
             )}
 
@@ -244,6 +253,7 @@ const App: React.FC = () => {
             simulationResult={optimizedResult || baselineResult}
             onApplyOptimization={handleApplyOptimization}
             apiKey={apiKey}
+            onNeedApiKey={() => setShowApiKeyModal(true)}
           />
         </div>
 

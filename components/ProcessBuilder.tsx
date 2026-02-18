@@ -10,6 +10,7 @@ interface ProcessBuilderProps {
   setProcessName: (name: string) => void;
   readOnly?: boolean;
   apiKey: string;
+  onNeedApiKey?: () => void;
 }
 
 export const ProcessBuilder: React.FC<ProcessBuilderProps> = ({
@@ -18,7 +19,8 @@ export const ProcessBuilder: React.FC<ProcessBuilderProps> = ({
   processName,
   setProcessName,
   readOnly = false,
-  apiKey
+  apiKey,
+  onNeedApiKey
 }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newStep, setNewStep] = useState<Partial<ProcessStep>>({});
@@ -51,6 +53,13 @@ export const ProcessBuilder: React.FC<ProcessBuilderProps> = ({
 
   const handleImport = async () => {
     if (!importText.trim()) return;
+    
+    // Show API key modal if missing
+    if (!apiKey) {
+      onNeedApiKey?.();
+      return;
+    }
+    
     setIsImporting(true);
     try {
       const extractedSteps = await parseProcessDescription(apiKey, importText);

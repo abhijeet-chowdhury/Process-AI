@@ -147,7 +147,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-slate-100">
-      <ApiKeyModal isOpen={showApiKeyModal} setApiKey={handleSetApiKey} />
+      <ApiKeyModal isOpen={showApiKeyModal} setApiKey={handleSetApiKey} onClose={() => setShowApiKeyModal(false)} />
 
       {/* Navbar */}
       <header className="bg-slate-900 text-white p-4 shadow-lg flex items-center justify-between z-10">

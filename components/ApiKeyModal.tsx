@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Key, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Key, ShieldCheck, ChevronRight, X } from 'lucide-react';
 
 interface ApiKeyModalProps {
   setApiKey: (key: string) => void;
   isOpen: boolean;
+  onClose?: () => void;
 }
 
-export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ setApiKey, isOpen }) => {
+export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ setApiKey, isOpen, onClose }) => {
   const [inputKey, setInputKey] = useState('');
 
   if (!isOpen) return null;
@@ -20,14 +21,23 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ setApiKey, isOpen }) =
 
   return (
     <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full border border-slate-200 p-8 animate-in fade-in zoom-in duration-300">
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full border border-slate-200 p-8 animate-in fade-in zoom-in duration-300 relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+          title="Close without API Key"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
         <div className="flex flex-col items-center text-center mb-6">
           <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
             <Key className="w-6 h-6 text-blue-600" />
           </div>
           <h2 className="text-2xl font-bold text-slate-900">Enter API Key</h2>
           <p className="text-slate-500 mt-2 text-sm">
-            To use ProcessAI, please provide your Google Gemini API key. 
+            To use ProcessAI features, please provide your Google Gemini API key. 
             It is stored locally in your browser and never sent to our servers.
           </p>
         </div>
@@ -53,10 +63,31 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ setApiKey, isOpen }) =
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-center gap-2 text-xs text-slate-400">
+        <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+          <p className="text-xs text-slate-600 mb-2">
+            <span className="font-semibold text-slate-800">Don't have an API key?</span> Get one free from Google AI Studio:
+          </p>
+          <a
+            href="https://aistudio.google.com/app/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-bold text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
+          >
+            aistudio.google.com/app/apikey ↗
+          </a>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-xs text-slate-400">
           <ShieldCheck className="w-4 h-4" />
           <span>Your key remains private and local.</span>
         </div>
+
+        <button
+          onClick={onClose}
+          className="mt-4 w-full text-sm text-slate-500 hover:text-slate-700 font-medium py-2 transition-colors"
+        >
+          Continue exploring without API Key
+        </button>
       </div>
     </div>
   );

@@ -393,14 +393,6 @@ Contributions are welcome! To contribute:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
-
-## 📧 Support
-
-For support, email your-email@example.com or open an issue in the repository.
-
----
-
 <div align="center">
   
 **Made with ❤️ using React, TypeScript, and AI**
